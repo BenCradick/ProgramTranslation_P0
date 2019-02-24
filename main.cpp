@@ -3,6 +3,8 @@
 #include <cerrno>
 #include <fstream>
 
+#include "Tree.h"
+
 using namespace std;
 
 
@@ -24,7 +26,7 @@ int main(int argc, char* argv[]) {
     if(argc < 2) {
         fileName = "out";
         inputFileName = "./tempFileXXXXXX";
-        inputFile.open(inputFileName, fstream::ate); // ate = aT The End, meaning write to end of the file.
+        inputFile.open(inputFileName, fstream::ate); // ate = At The End, meaning write to end of the file.
 
         getline(cin, keyBuffer);
         inputFile << keyBuffer;
@@ -36,6 +38,8 @@ int main(int argc, char* argv[]) {
         fileName = argv[1];
         inputFileName = fileName + ".sp19";
         inputFile.open(inputFileName);
+
+        Tree BST = Tree(inputFile);
     }
 
     if(errno != 0){

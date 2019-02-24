@@ -10,6 +10,7 @@
 
 
 
+
     Node::Node(std::string token){
             data = token;
             rightChild = nullptr;

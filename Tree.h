@@ -6,7 +6,18 @@
 #define P0_TREE_H
 
 
-class tree {
+#include "Node.h"
+#include <vector>
+#include <fstream>
+
+
+class Tree {
+public:
+    Node* root;
+
+
+    explicit Tree(std::fstream& ptr);
+
 
 };
 
