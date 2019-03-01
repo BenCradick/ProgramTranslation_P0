@@ -5,7 +5,7 @@
 #ifndef P0_NODE_H
 #define P0_NODE_H
 
-#include <string>
+#include <set>
 
 
 class Node {
@@ -13,10 +13,15 @@ public:
     Node* rightChild;
     Node* leftChild;
 
-    std::string data;
+    std::set <std::string> data;
+
     unsigned long dataLength;
 
     explicit Node(std::string token);
+    Node();
+
+    void addWord(std::string token);
+    void printNode();
 };
 
 

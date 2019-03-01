@@ -7,7 +7,6 @@
 
 
 #include "Node.h"
-#include <vector>
 #include <fstream>
 
 
@@ -15,9 +14,13 @@ class Tree {
 public:
     Node* root;
 
-
     explicit Tree(std::fstream& ptr);
+    void buildTree(std::fstream& ptr);
 
+    void insert(Node*& root, std::string word, unsigned long wordLength);
+    void printInOrder();
+    void printPostOrder();
+    void printPreOrder();
 
 };
 

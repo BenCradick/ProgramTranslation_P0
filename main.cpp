@@ -17,6 +17,8 @@ int main(int argc, char* argv[]) {
 
     string keyBuffer;
 
+    Tree* BST;
+
     bool tempFile = false; //tracks if we need to delete a temporary file later mkstemp doesn't work on Non-POSIX machines.
 
 
@@ -32,6 +34,7 @@ int main(int argc, char* argv[]) {
         inputFile << keyBuffer;
 
         tempFile = true;
+        BST = new Tree(inputFile);
 
     }
     else {
@@ -39,7 +42,7 @@ int main(int argc, char* argv[]) {
         inputFileName = fileName + ".sp19";
         inputFile.open(inputFileName);
 
-        Tree BST = Tree(inputFile);
+        BST = new Tree(inputFile);
     }
 
     if(errno != 0){
@@ -47,7 +50,7 @@ int main(int argc, char* argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    
+    BST->printInOrder();
     inputFile.close();
 
     if(tempFile){
