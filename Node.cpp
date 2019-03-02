@@ -10,10 +10,6 @@
 #include <iterator>
 
 
-
-
-
-
     Node::Node(std::string token){
             data.insert(token);
             rightChild = nullptr;
@@ -22,6 +18,8 @@
         }
     Node::Node(){
         this->dataLength = 0;
+        rightChild = nullptr;
+        leftChild = nullptr;
     };
     void Node::addWord(std::string token) {
     data.insert(token);

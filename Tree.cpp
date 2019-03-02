@@ -3,6 +3,7 @@
 //
 
 #include "Tree.h"
+#include <iostream>
 
 
 Tree::Tree(std::fstream &ptr){
@@ -21,10 +22,10 @@ void Tree::buildTree(std::fstream &ptr) {
         std::size_t previousPosition = 0; //where to start search
         std::size_t currentPosition; // where the loop is.
 
-        std::string word;
-        while((currentPosition = line.find_first_of(delimiters, previousPosition, delimLength)) != std::string::npos){
+        std::string word; //holds the last/most recent word pulled from the file
+        while((currentPosition = line.find_first_of(delimiters, previousPosition, delimLength)) != std::string::npos){ //npos = end position
             if(currentPosition > previousPosition){
-
+                // all done recursively.
                 word = line.substr(previousPosition, currentPosition - previousPosition);
                 insert(root, word, word.length());
             }
@@ -40,38 +41,29 @@ void Tree::buildTree(std::fstream &ptr) {
 }
 
 void Tree::insert(Node*& root, std::string word, unsigned long dataLength) {
-    Node temp = *root;
-    do{
-        if(root->dataLength == 0){
-            *root = Node(word);
-            return;
-        }
-        else if(temp.dataLength > dataLength){
-            if(temp.leftChild == nullptr){
-                temp.leftChild = new Node(word);
-                return;
-            }
-            else {
-                temp = *temp.leftChild;
-            }
-        }
-        else if(temp.dataLength < dataLength){
-            if(temp.rightChild == nullptr){
-                temp.rightChild = new Node(word);
-                return;
-            }
-            else {
-                temp = *temp.rightChild;
-            }
 
-        }
-        else{
-            temp.addWord(word);
-            return;
-        }
-    }while(temp.dataLength != dataLength);
 
-    temp.addWord(word);
+    if(root->dataLength == 0){
+        *root = Node(word);
+        return;
+    }
+    else if(root->dataLength > dataLength){
+        if(root->leftChild == nullptr){ //check prevents BAD_EXEC errors that were occurring without suboptimal but necessary.
+            root->leftChild = new Node();
+        }
+        insert(root->leftChild, word, dataLength);
+
+    }
+    else if(root->dataLength < dataLength) {
+        if(root->rightChild == nullptr){
+            root->rightChild = new Node();
+        }
+        insert(root->rightChild, word, dataLength);
+    }
+    else{
+        root->addWord(word);
+        return;
+    }
 }
 // These three functions are the meet and potatoes of the print_X_Order functions
 // the actual functions to be called are really just to fit definition requirements
@@ -79,18 +71,34 @@ void preOrderHelper(int height, Node* node){
     if(node == nullptr){
         return;
     }
+    for(int i = 0; i < height; i++){
+        std::cout << "  ";
+    }
+    std::cout << "string length:" << node->dataLength << " ";
     node->printNode();
+    std::cout << std::endl;
+
     preOrderHelper(height+1, node->leftChild);
     preOrderHelper(height+1, node->rightChild);
 }
+
+//Recursive implementations of different types of traversals.
 void postOrderHelper(int height, Node* node){
     if(node == nullptr){
         return;
     }
+
     postOrderHelper(height+1, node->leftChild);
     postOrderHelper(height+1, node->rightChild);
 
+    //lazy implementation of the printing requirements of 2X height indentation followed by string lengths then names.
+    for(int i = 0; i < height; i++){
+        std::cout << "  ";
+    }
+
+    std::cout << "string length:" << node->dataLength << " ";
     node->printNode();
+    std::cout << std::endl;
 }
 void inOrderHelper(int height, Node* node){
     if(node == nullptr){
@@ -98,7 +106,12 @@ void inOrderHelper(int height, Node* node){
     }
     inOrderHelper(height+1, node->leftChild);
 
+    for(int i = 0; i < height; i++){
+        std::cout << "  ";
+    }
+    std::cout << "string length:" << node->dataLength << " ";
     node->printNode();
+    std::cout << std::endl;
 
     inOrderHelper(height+1, node->rightChild);
 }
