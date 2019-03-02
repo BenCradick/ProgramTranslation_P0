@@ -10,8 +10,8 @@ using namespace std;
 void errorCheckHelper();
 void printOutputFiles(string fileName, Tree* binarySearchTree);
 
-int main(int argc, char* argv[]) {
-
+int main(int argc, char* argv[])
+{
     fstream inputFile;
 
     string fileName;
@@ -23,47 +23,49 @@ int main(int argc, char* argv[]) {
 
     bool tempFile = false; //tracks if we need to delete a temporary file later mkstemp doesn't work on Non-POSIX machines.
 
-    if(argc < 2) {
+    if(argc < 2)
+    {
         fileName = "out";
         inputFileName = "./tempFileXXXXXX";
         inputFile.open(inputFileName, fstream::ate); // ate = At The End, meaning write to end of the file.
 
         getline(cin, keyBuffer);
         inputFile << keyBuffer;
-
         errorCheckHelper();
-
         tempFile = true;
-        binarySearchTree = new Tree(inputFile);
-
     }
-    else {
+    else
+     {
         fileName = argv[1];
 
         inputFileName = fileName + ".sp19";
         inputFile.open(inputFileName);
         errorCheckHelper();
+     }
 
-        binarySearchTree = new Tree(inputFile);
-    }
+    binarySearchTree = new Tree(inputFile);
 
     inputFile.close();
 
     printOutputFiles(fileName, binarySearchTree);
 
-    if(tempFile){
+    if(tempFile)
+    {
         remove(inputFileName.c_str());
     }
-    return 0;
+    return EXIT_SUCCESS;
 }
 
-void errorCheckHelper(){
-    if(errno != 0){
+void errorCheckHelper()
+{
+    if(errno != 0)
+    {
         perror("Failed to read input: ");
         exit(EXIT_FAILURE);
     }
 }
-void printOutputFiles(string fileName, Tree* binarySearchTree){
+void printOutputFiles(string fileName, Tree* binarySearchTree)
+{
     ofstream postOrder;
     ofstream preOrder;
     ofstream inOrder;
@@ -87,6 +89,4 @@ void printOutputFiles(string fileName, Tree* binarySearchTree){
     binarySearchTree->printInOrder();
     cout.rdbuf(coutBuf);
     inOrder.close();
-
-
 }

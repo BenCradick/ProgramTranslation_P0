@@ -8,7 +8,8 @@
 #include <set>
 
 
-class Node {
+class Node
+{
 public:
     Node* rightChild;
     Node* leftChild;
